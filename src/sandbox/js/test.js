@@ -32,4 +32,3 @@ const isShadowRootModeSupported =
 document
   .querySelector("p[hidden]")
   .toggleAttribute("hidden", isShadowRootModeSupported);
-

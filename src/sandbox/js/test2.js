@@ -11,5 +11,5 @@ startButton.addEventListener("click", () => {
     } else {
       // Stop the countdown and display a message
     }
-  }, 1000); 
+  }, 1000);
 });

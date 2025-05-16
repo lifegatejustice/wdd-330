@@ -5,100 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sandbox</title>
   </head>
-  <link rel="stylesheet" href="css/sandbox.css">
+  <link rel="stylesheet" href="css/sandbox.css" />
   <body>
     <h1>Sandbox Environment</h1>
     <table id="producttable">
-  <thead>
-    <tr>
-      <td>UPC_Code</td>
-      <td>Product_Name</td>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- existing data could optionally be included here -->
-  </tbody>
-</table>
+      <thead>
+        <tr>
+          <td>UPC_Code</td>
+          <td>Product_Name</td>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- existing data could optionally be included here -->
+      </tbody>
+    </table>
 
-<template id="productrow">
-  <tr>
-    <td class="record"></td>
-    <td></td>
-  </tr>
-</template>
+    <template id="productrow">
+      <tr>
+        <td class="record"></td>
+        <td></td>
+      </tr>
+    </template>
 
-<p hidden>
-  ⛔ Your browser doesn't support <code>shadowrootmode</code> attribute yet.
-</p>
-<article>
-  <style>
-    p {
-      padding: 8px;
-      background-color: wheat;
-    }
-  </style>
-  <p>I'm in the DOM.</p>
-</article>
-<article>
-  <template shadowrootmode="open">
-    <style>
-      p {
-        padding: 8px;
-        background-color: plum;
-      }
-    </style>
-    <p>I'm in the shadow DOM.</p>
-  </template>
-</article>
+    <p hidden>
+      ⛔ Your browser doesn't support <code>shadowrootmode</code> attribute yet.
+    </p>
+    <article>
+      <style>
+        p {
+          padding: 8px;
+          background-color: wheat;
+        }
+      </style>
+      <p>I'm in the DOM.</p>
+    </article>
+    <article>
+      <template shadowrootmode="open">
+        <style>
+          p {
+            padding: 8px;
+            background-color: plum;
+          }
+        </style>
+        <p>I'm in the shadow DOM.</p>
+      </template>
+    </article>
 
-<div>
-  <template shadowrootmode="open">
-    <style>
-      :host {
-        display: block;
-        border: 1px dotted black;
-        padding: 10px;
-        margin: 10px;
-      }
-      :focus {
-        outline: 2px solid blue;
-      }
-    </style>
-    <div>Clickable Shadow DOM text</div>
-    <input type="text" placeholder="Input inside Shadow DOM" />
-  </template>
-</div>
+    <div>
+      <template shadowrootmode="open">
+        <style>
+          :host {
+            display: block;
+            border: 1px dotted black;
+            padding: 10px;
+            margin: 10px;
+          }
+          :focus {
+            outline: 2px solid blue;
+          }
+        </style>
+        <div>Clickable Shadow DOM text</div>
+        <input type="text" placeholder="Input inside Shadow DOM" />
+      </template>
+    </div>
 
+    <div>
+      <template shadowrootmode="open" shadowrootdelegatesfocus>
+        <style>
+          :host {
+            display: block;
+            border: 1px dotted black;
+            padding: 10px;
+            margin: 10px;
+          }
+          :focus {
+            outline: 2px solid blue;
+          }
+        </style>
+        <div>Clickable Shadow DOM text</div>
+        <input type="text" placeholder="Input inside Shadow DOM" />
+      </template>
+    </div>
+    <template id="prophet-card">
+      <section class="card">
+        <h2></h2>
+        <p></p>
+        <p></p>
+        <img
+          class="profile"
+          src=""
+          alt=""
+          loading="lazy"
+          width="200"
+          height="300"
+        />
+      </section>
+    </template>
 
-<div>
-  <template shadowrootmode="open" shadowrootdelegatesfocus>
-    <style>
-      :host {
-        display: block;
-        border: 1px dotted black;
-        padding: 10px;
-        margin: 10px;
-      }
-      :focus {
-        outline: 2px solid blue;
-      }
-    </style>
-    <div>Clickable Shadow DOM text</div>
-    <input type="text" placeholder="Input inside Shadow DOM" />
-  </template>
-</div>
-  <template id="prophet-card">
-    <section class="card">
-      <h2></h2>
-      <p></p>
-      <p></p>
-      <img class="profile" src="" alt="" loading="lazy" width="200" height="300">
-    </section>
-  </template>
-
-
-<script src="js/test.js "></script>>
-
-    
+    <script src="js/test.js "></script>
+    >
   </body>
 </html>
