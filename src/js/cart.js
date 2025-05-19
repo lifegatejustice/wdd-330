@@ -5,9 +5,9 @@ function renderCartContents() {
   const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   const productList = qs(".product-list");
   productList.innerHTML = htmlItems.join("");
-  
+
   // Add event listeners to all remove buttons
-  productList.querySelectorAll(".remove-item").forEach(button => {
+  productList.querySelectorAll(".remove-item").forEach((button) => {
     button.addEventListener("click", removeFromCart);
   });
 }
@@ -35,10 +35,10 @@ function cartItemTemplate(item) {
 function removeFromCart(e) {
   const id = e.target.dataset.id;
   let cartItems = getLocalStorage("so-cart") || [];
-  
+
   // Filter out the item to remove
-  cartItems = cartItems.filter(item => item.Id !== id);
-  
+  cartItems = cartItems.filter((item) => item.Id !== id);
+
   // Update localStorage and re-render
   setLocalStorage("so-cart", cartItems);
   renderCartContents();
