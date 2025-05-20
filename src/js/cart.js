@@ -2,8 +2,14 @@ import { getLocalStorage, setLocalStorage, qs } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   const productList = qs(".product-list");
+
+  if (!cartItems.length) {
+    productList.innerHTML = "<p>Your cart is empty.</p>";
+    return;
+  }
+
+  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
   productList.innerHTML = htmlItems.join("");
 
   // Add event listeners to all remove buttons
@@ -13,17 +19,26 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
+  const imageSrc = item.Image || "";
+  const imageAlt = item.Name || "Product image";
+  const productName = item.Name || "Unknown product";
+  const productColor = (item.Colors && item.Colors[0] && item.Colors[0].ColorName) || "N/A";
+  const productPrice = item.FinalPrice !== undefined ? `$${item.FinalPrice}` : "Price not available";
+  const productQuantity = item.Quantity || 0;
+  const productSubtotal = (productPrice * productQuantity).toLocaleString("en") || "Price not available";
+  const productId = item.Id || "";
+
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${item.Image}"
-      alt="${item.Name}"
+      src="${imageSrc}"
+      alt="${imageAlt}"
     />
   </a>
   <a href="#">
-    <h2 class="card__name">${item.Name}</h2>
+    <h2 class="card__name">${productName}</h2>
   </a>
-  <small class="cart-card__color">${item.Colors[0].ColorName}</small>
+  <small class="cart-card__color">${productColor}</small>
   <table class="card__table">
     <thead>
       <th>Qty</th>
@@ -33,10 +48,10 @@ function cartItemTemplate(item) {
     </thead>
     <tbody>
       <tr>
-        <td>${item.Quantity}</td>
-        <td>$${item.FinalPrice}</td>
-        <td>$${(item.FinalPrice * item.Quantity).toLocaleString("en")}</td>
-        <td><button class="remove-item" title="remove item" data-id="${item.Id}">X</button></td>
+        <td>${productQuantity}</td>
+        <td>$${productPrice}</td>
+        <td>$${productSubtotal}</td>
+        <td><button class="remove-item" title="remove item" data-id="${productId}">X</button></td>
       </tr>
     </tbody>
   </table>
