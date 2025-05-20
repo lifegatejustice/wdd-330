@@ -22,7 +22,18 @@ export default class ProductDetails {
 
   addProductToCart() {
     const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
+    //inspect the cart if product is in cart
+    const itemInCart = cartItems.find(item => item.Id === this.productId)
+    if (itemInCart) {
+      // increment quantity if item in cart
+      itemInCart.Quantity++;
+    } else {
+      // adding the 'Quantity' key to product object before pushing it to cart.
+      // this helps when adjusting quantities in the cart.
+      this.product["Quantity"] = 1;
+      cartItems.push(this.product);
+    }
+    
     setLocalStorage("so-cart", cartItems);
   }
 
