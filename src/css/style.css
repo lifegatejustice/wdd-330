@@ -36,6 +36,11 @@ header {
   padding: 0.5rem;
 }
 
+footer {
+  font-size: var(--small-font);
+  padding: 1em;
+}
+
 p {
   padding: 0.75rem;
 }
@@ -244,6 +249,7 @@ button {
     "image itemColor"
     "image table";
   grid-template-columns: 25% auto;
+  column-gap: 1rem;
   font-size: var(--small-font);
   align-content: center;
 }
@@ -261,10 +267,10 @@ button {
   grid-area: table;
 }
 
-footer {
-  font-size: var(--small-font);
-  padding: 1em;
-}
+
+/* End of cart card redesign*/
+
+/* general*/
 
 .remove-item {
   background-color: red;
