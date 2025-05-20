@@ -23,7 +23,7 @@ function cartItemTemplate(item) {
   const imageAlt = item.Name || "Product image";
   const productName = item.Name || "Unknown product";
   const productColor = (item.Colors && item.Colors[0] && item.Colors[0].ColorName) || "N/A";
-  const productPrice = item.FinalPrice !== undefined ? `$${item.FinalPrice}` : "Price not available";
+  const productPrice = item.FinalPrice !== undefined ? item.FinalPrice : "Price not available";
   const productQuantity = item.Quantity || 0;
   const productSubtotal = (productPrice * productQuantity).toLocaleString("en") || "Price not available";
   const productId = item.Id || "";
@@ -48,7 +48,11 @@ function cartItemTemplate(item) {
     </thead>
     <tbody>
       <tr>
-        <td>${productQuantity}</td>
+        <td class="d-flex">
+          <button class="decrease-item" title="Decrease quantity" data-id="${productId}">-</button>
+          ${productQuantity}
+          <button class="increase-item" title="Add quantity" data-id="${productId}">+</button>
+        </td>
         <td>$${productPrice}</td>
         <td>$${productSubtotal}</td>
         <td><button class="remove-item" title="remove item" data-id="${productId}">X</button></td>

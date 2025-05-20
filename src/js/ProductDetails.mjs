@@ -28,12 +28,11 @@ export default class ProductDetails {
       // increment quantity if item in cart
       itemInCart.Quantity++;
     } else {
-      // adding the 'Quantity' key to product object before pushing it to cart.
+      // adding 'Quantity' key to product object before pushing it to cart.
       // this helps when adjusting quantities in the cart.
       this.product["Quantity"] = 1;
       cartItems.push(this.product);
     }
-    
     setLocalStorage("so-cart", cartItems);
   }
 

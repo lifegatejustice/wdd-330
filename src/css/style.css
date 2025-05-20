@@ -261,6 +261,29 @@ button {
   grid-area: table;
 }
 
+footer {
+  font-size: var(--small-font);
+  padding: 1em;
+}
+
+.remove-item {
+  background-color: red;
+  margin: 0;
+}
+
+.decrease-item {
+  background-color: gray;
+}
+
+.increase-item {
+  background-color: green;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -270,13 +293,9 @@ button {
   .mission {
     font-size: 1.2em;
   }
+
+  .decrease-item, .increase-item, .remove-item {
+    font-size: var(--small-font); 
+  }
 }
 
-footer {
-  font-size: var(--small-font);
-  padding: 1em;
-}
-
-.remove-item {
-  background-color: red;
-}
