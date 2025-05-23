@@ -1,15 +1,14 @@
-import { getParam } from "./utils.mjs";
+import { qs, loadHeaderFooter } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
-import ProductDetails from "./ProductDetails.mjs";
-import { loadHeaderFooter } from "./utils.mjs";
+import ProductList from "./ProductList.mjs";
 
 loadHeaderFooter();
 
 const dataSource = new ProductData("tents");
-const productID = getParam("product");
+const element = qs(".product-list");
 
-const product = new ProductDetails(productID, dataSource);
-product.init();
+const productList = new ProductList("Tents", dataSource, element);
+productList.init();
 
 // // add to cart button event handler
 // async function addToCartHandler(e) {
