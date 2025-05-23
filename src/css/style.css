@@ -109,7 +109,7 @@ button {
   background-color: var(--secondary-color);
   color: white;
   margin: 0.5rem;
-  display: block;
+  display: inline-flex;
   border: 0;
   border-radius: 0.375rem;
   font-size: var(--large-font);
@@ -120,6 +120,10 @@ button {
   display: inline-flex;
 }
 
+.cart-total, strong {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
