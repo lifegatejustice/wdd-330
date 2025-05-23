@@ -116,6 +116,10 @@ button {
   cursor: pointer;
 }
 
+.card__table button{
+  display: inline-flex;
+}
+
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
