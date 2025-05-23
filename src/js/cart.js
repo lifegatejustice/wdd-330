@@ -1,79 +1,108 @@
 import { getLocalStorage, setLocalStorage, qs } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   const productList = qs(".product-list");
 
+  // Empty-cart message
   if (!cartItems.length) {
     productList.innerHTML = "<p>Your cart is empty.</p>";
     return;
   }
 
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  productList.innerHTML = htmlItems.join("");
-
-  // Add event listeners to all remove buttons
-  productList.querySelectorAll(".remove-item").forEach((button) => {
-    button.addEventListener("click", removeFromCart);
+  // Build each item row and track running total
+  let total = 0;
+  const htmlItems = cartItems.map((item) => {
+    const price    = item.FinalPrice || 0;
+    const qty      = item.Quantity || 0;
+    const subtotal = price * qty;
+    total += subtotal;
+    return cartItemTemplate({ ...item, subtotal });
   });
+
+  // Inject items + total
+  productList.innerHTML = `
+    <ul class="cart-items">
+      ${htmlItems.join("")}
+    </ul>
+    <div class="cart-total">
+      <strong>Grand Total:</strong> $${total.toFixed(2)}
+    </div>
+  `;
+
+  // Wire up the buttons
+  productList.querySelectorAll(".remove-item")
+    .forEach(btn => btn.addEventListener("click", removeFromCart));
+  productList.querySelectorAll(".increase-item")
+    .forEach(btn => btn.addEventListener("click", () => changeQuantity(btn.dataset.id, +1)));
+  productList.querySelectorAll(".decrease-item")
+    .forEach(btn => btn.addEventListener("click", () => changeQuantity(btn.dataset.id, -1)));
 }
 
 function cartItemTemplate(item) {
-  const imageSrc = item.Image || "";
-  const imageAlt = item.Name || "Product image";
-  const productName = item.Name || "Unknown product";
-  const productColor = (item.Colors && item.Colors[0] && item.Colors[0].ColorName) || "N/A";
-  const productPrice = item.FinalPrice !== undefined ? item.FinalPrice : "Price not available";
-  const productQuantity = item.Quantity || 0;
-  const productSubtotal = (productPrice * productQuantity).toLocaleString("en") || "Price not available";
-  const productId = item.Id || "";
-
-  const newItem = `<li class="cart-card divider">
-  <a href="#" class="cart-card__image">
-    <img
-      src="${imageSrc}"
-      alt="${imageAlt}"
-    />
-  </a>
-  <a href="#">
-    <h2 class="card__name">${productName}</h2>
-  </a>
-  <small class="cart-card__color">${productColor}</small>
-  <table class="card__table">
-    <thead>
-      <th>Qty</th>
-      <th>Unit price</th>
-      <th>Subtotal</th>
-      <th>Delete</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="d-flex">
-          <button class="decrease-item" title="Decrease quantity" data-id="${productId}">-</button>
-          ${productQuantity}
-          <button class="increase-item" title="Add quantity" data-id="${productId}">+</button>
-        </td>
-        <td>$${productPrice}</td>
-        <td>$${productSubtotal}</td>
-        <td><button class="remove-item" title="remove item" data-id="${productId}">X</button></td>
-      </tr>
-    </tbody>
-  </table>
-</li>`;
-
-  return newItem;
+  return `
+  <li class="cart-card divider">
+    <a href="#" class="cart-card__image">
+      <img src="${item.Image || ""}" alt="${item.Name || "Product image"}" />
+    </a>
+    <a href="#"><h2 class="card__name">${item.Name || "Unknown"}</h2></a>
+    <small class="cart-card__color">${item.Colors?.[0]?.ColorName || "N/A"}</small>
+    <table class="card__table">
+      <thead>
+        <tr>
+          <th>Qty</th>
+          <th>Unit price</th>
+          <th>Subtotal</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <button class="decrease-item" data-id="${item.Id}">–</button>
+            ${item.Quantity}
+            <button class="increase-item" data-id="${item.Id}">+</button>
+          </td>
+          <td>$${(item.FinalPrice ?? 0).toFixed(2)}</td>
+          <td>$${(item.subtotal ?? 0).toFixed(2)}</td>
+          <td>
+            <button class="remove-item" data-id="${item.Id}">×</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </li>`;
 }
 
 function removeFromCart(e) {
   const id = e.target.dataset.id;
-  let cartItems = getLocalStorage("so-cart") || [];
-
-  // Filter out the item to remove
-  cartItems = cartItems.filter((item) => item.Id !== id);
-
-  // Update localStorage and re-render
-  setLocalStorage("so-cart", cartItems);
-  renderCartContents();
+  let items = getLocalStorage("so-cart") || [];
+  const idx = items.findIndex(i => i.Id === id);
+  if (idx > -1) {
+    items.splice(idx, 1);
+    setLocalStorage("so-cart", items);
+    renderCartContents();
+  }
 }
 
+function changeQuantity(id, delta) {
+  let items = getLocalStorage("so-cart") || [];
+  const idx = items.findIndex(i => i.Id === id);
+  if (idx > -1) {
+    const newQty = (items[idx].Quantity || 0) + delta;
+    if (newQty < 1) {
+      // if you prefer auto-remove when <1:
+      items.splice(idx, 1);
+    } else {
+      items[idx].Quantity = newQty;
+    }
+    setLocalStorage("so-cart", items);
+    renderCartContents();
+  }
+}
+
+// initial render
 renderCartContents();
