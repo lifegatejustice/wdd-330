@@ -116,11 +116,12 @@ button {
   cursor: pointer;
 }
 
-.card__table button{
+.card__table button {
   display: inline-flex;
 }
 
-.cart-total, strong {
+.cart-total,
+strong {
   font-weight: bold;
   margin-top: 0.5rem;
 }
@@ -275,7 +276,6 @@ button {
   grid-area: table;
 }
 
-
 /* End of cart card redesign*/
 
 /* general*/
@@ -308,8 +308,9 @@ button {
     font-size: 1.2em;
   }
 
-  .decrease-item, .increase-item, .remove-item {
-    font-size: var(--small-font); 
+  .decrease-item,
+  .increase-item,
+  .remove-item {
+    font-size: var(--small-font);
   }
 }
-

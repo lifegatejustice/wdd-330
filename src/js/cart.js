@@ -16,8 +16,8 @@ function renderCartContents() {
   // Build each item row and track running total
   let total = 0;
   const htmlItems = cartItems.map((item) => {
-    const price    = item.FinalPrice || 0;
-    const qty      = item.Quantity || 0;
+    const price = item.FinalPrice || 0;
+    const qty = item.Quantity || 0;
     const subtotal = price * qty;
     total += subtotal;
     return cartItemTemplate({ ...item, subtotal });
@@ -34,12 +34,19 @@ function renderCartContents() {
   `;
 
   // Wire up the buttons
-  productList.querySelectorAll(".remove-item")
-    .forEach(btn => btn.addEventListener("click", removeFromCart));
-  productList.querySelectorAll(".increase-item")
-    .forEach(btn => btn.addEventListener("click", () => changeQuantity(btn.dataset.id, +1)));
-  productList.querySelectorAll(".decrease-item")
-    .forEach(btn => btn.addEventListener("click", () => changeQuantity(btn.dataset.id, -1)));
+  productList
+    .querySelectorAll(".remove-item")
+    .forEach((btn) => btn.addEventListener("click", removeFromCart));
+  productList
+    .querySelectorAll(".increase-item")
+    .forEach((btn) =>
+      btn.addEventListener("click", () => changeQuantity(btn.dataset.id, +1)),
+    );
+  productList
+    .querySelectorAll(".decrease-item")
+    .forEach((btn) =>
+      btn.addEventListener("click", () => changeQuantity(btn.dataset.id, -1)),
+    );
 }
 
 function cartItemTemplate(item) {
@@ -80,7 +87,7 @@ function cartItemTemplate(item) {
 function removeFromCart(e) {
   const id = e.target.dataset.id;
   let items = getLocalStorage("so-cart") || [];
-  const idx = items.findIndex(i => i.Id === id);
+  const idx = items.findIndex((i) => i.Id === id);
   if (idx > -1) {
     items.splice(idx, 1);
     setLocalStorage("so-cart", items);
@@ -90,7 +97,7 @@ function removeFromCart(e) {
 
 function changeQuantity(id, delta) {
   let items = getLocalStorage("so-cart") || [];
-  const idx = items.findIndex(i => i.Id === id);
+  const idx = items.findIndex((i) => i.Id === id);
   if (idx > -1) {
     const newQty = (items[idx].Quantity || 0) + delta;
     if (newQty < 1) {
