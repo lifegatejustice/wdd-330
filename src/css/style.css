@@ -298,6 +298,21 @@ strong {
   align-items: center;
 }
 
+.ps-relative {
+  position: relative;
+}
+.cart-count {
+  position: absolute;
+  top: -1.5rem;
+  right: -0.2rem;
+  background-color: var(--primary-color);
+  color: black;
+  padding: 0.25rem;
+  border-radius: 50%;
+  font-size: var(--small-font);
+}
+
+/* Responsive styles */
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
