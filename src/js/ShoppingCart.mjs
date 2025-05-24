@@ -27,9 +27,15 @@ export default class ShoppingCart {
   }
 
   renderList(list) {
-    const templateFn = (item) => this.prepareCartItemTemplate(this.template, item);
-    renderListWithTemplate(templateFn, this.listElement, list, "afterbegin", true);
-    this.updateGrandTotal();
+    if (this.cartItems.length === 0) {
+      this.listElement.innerHTML = "<p>Your cart is empty.</p>";
+      const totalElement = qs(".cart-total");
+      totalElement.classList.add("d-none");
+    } else { 
+      const templateFn = (item) => this.prepareCartItemTemplate(this.template, item);
+      renderListWithTemplate(templateFn, this.listElement, list, "afterbegin", true);
+      this.updateGrandTotal();
+    }
   }
 
   setupEventListeners() {
@@ -51,9 +57,7 @@ export default class ShoppingCart {
     setLocalStorage("so-cart", this.cartItems);
     this.renderList(this.cartItems);
     updateCartCount(); // Update cart count after removing an item
-    if (this.cartItems.length === 0) {
-      this.listElement.innerHTML = "<p>Your cart is empty.</p>";
-    }
+   
     
   }
 
@@ -72,9 +76,12 @@ export default class ShoppingCart {
 
   updateGrandTotal() {
     const total = this.cartItems.reduce((sum, item) => sum + (item.FinalPrice * item.Quantity), 0);
-    const totalElement = qs(".grand-total");
-    if (totalElement) {
-      totalElement.textContent = `${total.toLocaleString("en-US")}`;
-    }
+    const totalElement = qs(".cart-total");
+    const totalSpan = qs(".grand-total");
+
+    if (totalSpan && total > 0) {
+      totalElement.classList.remove("d-none");
+      totalSpan.textContent = `${total.toLocaleString("en-US")}`;
+    } 
   }
 }
