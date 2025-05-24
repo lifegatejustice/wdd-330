@@ -1,4 +1,4 @@
-:root {
+ :root {
   --font-body: Arial, Helvetica, sans-serif;
   --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
   /* colors */
@@ -313,4 +313,66 @@ strong {
   .remove-item {
     font-size: var(--small-font);
   }
+}
+
+/* Categories Section Styling */
+.categories {
+  padding: 2rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+
+.categories h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.category-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 180px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover,
+.category-card:focus-within {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.category-card a {
+  display: block;
+  padding: 1rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.category-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.category-card h3 {
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 600;
 }
