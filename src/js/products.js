@@ -1,5 +1,6 @@
 import ProductData from "./ProductData.mjs";
 import ProductList from "./ProductList.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
 
 function getCategoryFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -13,15 +14,17 @@ function updateCategoryTitle(category) {
     const formattedCategory = category
       .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
-    titleElement.textContent = `${formattedCategory} Products`;
+    titleElement.textContent = `Top Products: ${formattedCategory}`;
   }
 }
 
 async function init() {
+  loadHeaderFooter();
+
   const category = getCategoryFromUrl();
   updateCategoryTitle(category);
 
-  const dataSource = new ProductData(category);
+  const dataSource = new ProductData();
   const listElement = document.querySelector(".product-list");
 
   const productList = new ProductList(category, dataSource, listElement);
