@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs } from "./utils.mjs";
 
 export default class ShoppingCart {
   constructor(listElement) {
@@ -13,6 +13,7 @@ export default class ShoppingCart {
     this.template = await loadTemplate("../templates/cartItem.html");
     this.renderList(this.cartItems);
     this.setupEventListeners();
+    this.updateGrandTotal();
   }
 
   prepareCartItemTemplate(template, item) {
@@ -22,7 +23,7 @@ export default class ShoppingCart {
       .replace(/{{Color}}/g, (item.Colors?.[0]?.ColorName || "N/A"))
       .replace(/{{FinalPrice}}/g, item.FinalPrice !== undefined ? item.FinalPrice : "0")
       .replace(/{{Quantity}}/g, item.Quantity || 0)
-      .replace(/{{Subtotal}}/g, (item.FinalPrice * item.Quantity).toFixed(2))
+      .replace(/{{Subtotal}}/g, (item.FinalPrice * item.Quantity).toLocaleString("en-US"))
       .replace(/{{Id}}/g, item.Id || "");
   }
 
@@ -53,6 +54,7 @@ export default class ShoppingCart {
     if (this.cartItems.length === 0) {
       this.listElement.innerHTML = "<p>Your cart is empty.</p>";
     }
+    this.updateGrandTotal();
   }
 
   changeQuantity(id, delta) {
@@ -65,6 +67,15 @@ export default class ShoppingCart {
       this.cartItems[index].Quantity = Math.max(1, this.cartItems[index].Quantity + delta);
       setLocalStorage("so-cart", this.cartItems);
       this.renderList(this.cartItems);
+    }
+    this.updateGrandTotal();
+  }
+
+  updateGrandTotal() {
+    const total = this.cartItems.reduce((sum, item) => sum + (item.FinalPrice * item.Quantity), 0);
+    const totalElement = qs(".grand-total");
+    if (totalElement) {
+      totalElement.textContent = `Total: $${total.toLocaleString("en-US")}`;
     }
   }
 }

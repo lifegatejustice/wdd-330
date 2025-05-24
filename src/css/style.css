@@ -120,10 +120,9 @@ button {
   display: inline-flex;
 }
 
-.cart-total,
-strong {
+.cart-total {
   font-weight: bold;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 .divider {
   border-bottom: 2px solid var(--primary-color);
@@ -167,8 +166,13 @@ strong {
 }
 
 .products {
-  margin-top: 2rem;
+  display: grid;
+  margin: 1rem 0;
   padding: 1rem;
+  justify-items: center;
+}
+.products h2 {
+  margin-bottom: 1rem;
 }
 
 .product-list {
