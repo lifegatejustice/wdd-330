@@ -75,7 +75,7 @@ export default class ShoppingCart {
     const total = this.cartItems.reduce((sum, item) => sum + (item.FinalPrice * item.Quantity), 0);
     const totalElement = qs(".grand-total");
     if (totalElement) {
-      totalElement.textContent = `Total: $${total.toLocaleString("en-US")}`;
+      totalElement.textContent = `${total.toLocaleString("en-US")}`;
     }
   }
 }
