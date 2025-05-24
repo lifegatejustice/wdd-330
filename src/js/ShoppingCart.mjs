@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, cartCount } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount } from "./utils.mjs";
 
 export default class ShoppingCart {
   constructor(listElement) {
@@ -49,7 +49,7 @@ export default class ShoppingCart {
     this.cartItems = this.cartItems.filter(item => item.Id !== id);
     setLocalStorage("so-cart", this.cartItems);
     this.renderList(this.cartItems);
-    cartCount(); // Update cart count after removing an item
+    updateCartCount(); // Update cart count after removing an item
     if (this.cartItems.length === 0) {
       this.listElement.innerHTML = "<p>Your cart is empty.</p>";
     }

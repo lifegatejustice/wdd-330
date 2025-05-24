@@ -64,10 +64,10 @@ export async function loadHeaderFooter() {
   renderWithTemplate(header, headerElement);
   renderWithTemplate(footer, footerElement);
 
-  cartCount(); // Update cart count after loading header/footer
+  updateCartCount(); // Update cart count after loading header/footer
 }
 
-export function cartCount() { 
+export function updateCartCount() { 
   const cartCount = getLocalStorage("so-cart")?.length || 0;
   const cartCountElement = qs(".cart-count");
   if (cartCountElement) {
