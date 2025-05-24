@@ -29,6 +29,14 @@ async function init() {
 
   const productList = new ProductList(category, dataSource, listElement);
   await productList.init();
+
+  const sortSelect = document.getElementById("sortSelect");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", async (event) => {
+      const sortBy = event.target.value;
+      await productList.sortAndRender(sortBy);
+    });
+  }
 }
 
 init();

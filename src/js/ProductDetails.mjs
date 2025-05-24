@@ -41,7 +41,7 @@ export default class ProductDetails {
   }
 }
 
-
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 function fixImageUrl(url) {
   if (!url) return "";
@@ -51,7 +51,6 @@ function fixImageUrl(url) {
   return baseURL + url;
 }
 
-const baseURL = import.meta.env.VITE_SERVER_URL;
 
 
 function productDetailsTemplate(product) {
