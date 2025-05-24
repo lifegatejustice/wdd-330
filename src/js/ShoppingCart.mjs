@@ -13,7 +13,6 @@ export default class ShoppingCart {
     this.template = await loadTemplate("../templates/cartItem.html");
     this.renderList(this.cartItems);
     this.setupEventListeners();
-    this.updateGrandTotal();
   }
 
   prepareCartItemTemplate(template, item) {
@@ -30,6 +29,7 @@ export default class ShoppingCart {
   renderList(list) {
     const templateFn = (item) => this.prepareCartItemTemplate(this.template, item);
     renderListWithTemplate(templateFn, this.listElement, list, "afterbegin", true);
+    this.updateGrandTotal();
   }
 
   setupEventListeners() {
@@ -54,7 +54,7 @@ export default class ShoppingCart {
     if (this.cartItems.length === 0) {
       this.listElement.innerHTML = "<p>Your cart is empty.</p>";
     }
-    this.updateGrandTotal();
+    
   }
 
   changeQuantity(id, delta) {
@@ -68,7 +68,6 @@ export default class ShoppingCart {
       setLocalStorage("so-cart", this.cartItems);
       this.renderList(this.cartItems);
     }
-    this.updateGrandTotal();
   }
 
   updateGrandTotal() {
