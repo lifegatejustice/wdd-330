@@ -7,6 +7,15 @@ import {
 
 loadHeaderFooter();
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+function fixImageUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("http") || url.startsWith("/")) {
+    return url;
+  }
+  return baseURL + url;
+}
+
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
   const productList = qs(".product-list");
@@ -54,10 +63,13 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
+  // new image logic:
+  const imageUrl = fixImageUrl(item.Images?.PrimaryMedium || item.Image || "");
+
   return `
   <li class="cart-card divider">
     <a href="#" class="cart-card__image">
-      <img src="${item.Image || ""}" alt="${item.Name || "Product image"}" />
+      <img src="${imageUrl}" alt="${item.Name || "Product image"}" />
     </a>
     <a href="#"><h2 class="card__name">${item.Name || "Unknown"}</h2></a>
     <small class="cart-card__color">${item.Colors?.[0]?.ColorName || "N/A"}</small>
@@ -105,7 +117,7 @@ function changeQuantity(id, delta) {
   if (idx > -1) {
     const newQty = (items[idx].Quantity || 0) + delta;
     if (newQty < 1) {
-      // if you prefer auto-remove when <1:
+      // auto-remove when quantity <1
       items.splice(idx, 1);
     } else {
       items[idx].Quantity = newQty;
