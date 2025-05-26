@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs } from "./utils.mjs";
 
 export default class ShoppingCart {
   constructor(listElement) {
@@ -22,13 +22,20 @@ export default class ShoppingCart {
       .replace(/{{Color}}/g, (item.Colors?.[0]?.ColorName || "N/A"))
       .replace(/{{FinalPrice}}/g, item.FinalPrice !== undefined ? item.FinalPrice : "0")
       .replace(/{{Quantity}}/g, item.Quantity || 0)
-      .replace(/{{Subtotal}}/g, (item.FinalPrice * item.Quantity).toFixed(2))
+      .replace(/{{Subtotal}}/g, (item.FinalPrice * item.Quantity).toLocaleString("en-US"))
       .replace(/{{Id}}/g, item.Id || "");
   }
 
   renderList(list) {
-    const templateFn = (item) => this.prepareCartItemTemplate(this.template, item);
-    renderListWithTemplate(templateFn, this.listElement, list, "afterbegin", true);
+    if (this.cartItems.length === 0) {
+      this.listElement.innerHTML = "<p>Your cart is empty.</p>";
+      const totalElement = qs(".cart-total");
+      totalElement.classList.add("d-none");
+    } else { 
+      const templateFn = (item) => this.prepareCartItemTemplate(this.template, item);
+      renderListWithTemplate(templateFn, this.listElement, list, "afterbegin", true);
+      this.updateGrandTotal();
+    }
   }
 
   setupEventListeners() {
@@ -49,6 +56,9 @@ export default class ShoppingCart {
     this.cartItems = this.cartItems.filter(item => item.Id !== id);
     setLocalStorage("so-cart", this.cartItems);
     this.renderList(this.cartItems);
+    updateCartCount(); // Update cart count after removing an item
+   
+    
   }
 
   changeQuantity(id, delta) {
@@ -62,5 +72,16 @@ export default class ShoppingCart {
       setLocalStorage("so-cart", this.cartItems);
       this.renderList(this.cartItems);
     }
+  }
+
+  updateGrandTotal() {
+    const total = this.cartItems.reduce((sum, item) => sum + (item.FinalPrice * item.Quantity), 0);
+    const totalElement = qs(".cart-total");
+    const totalSpan = qs(".grand-total");
+
+    if (totalSpan && total > 0) {
+      totalElement.classList.remove("d-none");
+      totalSpan.textContent = `${total.toLocaleString("en-US")}`;
+    } 
   }
 }
