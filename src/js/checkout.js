@@ -1,56 +1,55 @@
-import { loadHeaderFooter } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
-loadHeaderFooter();
+document.addEventListener("DOMContentLoaded", () => {
+  const checkoutProcess = new CheckoutProcess("so-cart", "form[name='checkout']");
 
-function validateForm(form) {
-  const inputs = form.querySelectorAll("input[required]");
-  for (const input of inputs) {
-    if (!input.value.trim()) {
-      return false;
-    }
-    if (input.pattern) {
-      const regex = new RegExp(input.pattern);
-      if (!regex.test(input.value.trim())) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-function setupFormValidation() {
-  const form = document.getElementById("checkout-form");
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    if (!validateForm(form)) {
-      alert("Please fill out all fields correctly before submitting.");
-      return;
-    }
-    alert("Order placed successfully!");
-    form.reset();
-    // Optionally clear cart after successful checkout
-    localStorage.removeItem("so-cart");
-    checkoutProcess.updateOrderSummary({ subtotal: 0, tax: 0, shipping: 0, total: 0 });
-  });
-}
-
-const checkoutProcess = new CheckoutProcess("so-cart", "#order-summary");
-
-function init() {
   checkoutProcess.init();
 
-  // Calculate order total on page load
-  checkoutProcess.calculateOrderTotal();
-
-  const zipInput = document.getElementById("zip-code");
+  // Calculate order total after zip code input loses focus
+  const zipInput = document.querySelector("input[name='zip']");
   if (zipInput) {
-    zipInput.addEventListener("input", () => {
+    zipInput.addEventListener("blur", () => {
       checkoutProcess.calculateOrderTotal();
     });
   }
 
-  setupFormValidation();
-}
+  // Form submit event handler
+  const form = document.forms["checkout"];
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-document.addEventListener("DOMContentLoaded", init);
+      // Basic form validation: check all required fields are filled
+      const requiredFields = form.querySelectorAll("[required]");
+      let allFilled = true;
+      requiredFields.forEach((field) => {
+        if (!field.value.trim()) {
+          allFilled = false;
+          field.classList.add("input-error");
+        } else {
+          field.classList.remove("input-error");
+        }
+      });
+
+      if (!allFilled) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Call checkout method to submit order
+      await checkoutProcess.checkout();
+
+      // Optionally, show success message or redirect after successful checkout
+      alert("Order submitted successfully!");
+      // window.location.href = "/"; // redirect to home or confirmation page
+    });
+  }
+
+  // Optional: set default test values for payment fields for easier testing
+  const cardNumberInput = form.querySelector("input[name='cardNumber']");
+  const expirationInput = form.querySelector("input[name='expiration']");
+  const codeInput = form.querySelector("input[name='code']");
+  if (cardNumberInput) cardNumberInput.value = "1234123412341234";
+  if (expirationInput) expirationInput.value = "12/30";
+  if (codeInput) codeInput.value = "123";
+});
