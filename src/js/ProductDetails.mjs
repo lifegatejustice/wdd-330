@@ -34,6 +34,15 @@ export default class ProductDetails {
       cartItems.push(this.product);
     }
     setLocalStorage("so-cart", cartItems);
+
+    // Animate cart icon
+    const cartIcon = document.querySelector(".cart");
+    if (cartIcon) {
+      cartIcon.classList.remove("cart-animate");
+      // Trigger reflow to restart animation
+      void cartIcon.offsetWidth;
+      cartIcon.classList.add("cart-animate");
+    }
   }
 
   renderProductDetails() {

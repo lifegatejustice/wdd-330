@@ -69,6 +69,25 @@ p {
   position: relative;
 }
 
+
+.list-footer  {
+  background-color: var(--primary-color);
+  color: var(--dark-grey);
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  width: fit-content;
+  margin: 1rem 0px;
+  box-shadow: 0 4px 6px rgba(240, 168, 104, 0.5);
+}
+
+
+
 .hero .logo {
   position: absolute;
   left: calc(50% - 60px);
@@ -147,6 +166,20 @@ strong {
 }
 
 /* End cart icon styles */
+
+/* Cart icon animation */
+@keyframes cart-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.cart-animate {
+  animation: cart-bounce 0.5s ease;
+}
 
 .mission {
   position: absolute;
