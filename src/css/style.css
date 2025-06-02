@@ -69,8 +69,7 @@ p {
   position: relative;
 }
 
-
-.list-footer  {
+.list-footer {
   background-color: var(--primary-color);
   color: var(--dark-grey);
   font-weight: bold;
@@ -85,8 +84,6 @@ p {
   margin: 1rem 0px;
   box-shadow: 0 4px 6px rgba(240, 168, 104, 0.5);
 }
-
-
 
 .hero .logo {
   position: absolute;
@@ -169,7 +166,8 @@ strong {
 
 /* Cart icon animation */
 @keyframes cart-bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
