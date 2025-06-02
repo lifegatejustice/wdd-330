@@ -57,7 +57,8 @@ form[name="checkout"] input[type="text"]:focus {
 }
 
 /* Checkout button styling */
-#checkoutSubmit, #cartCheckoutSubmit {
+#checkoutSubmit,
+#cartCheckoutSubmit {
   background-color: var(--primary-color);
   color: var(--dark-grey);
   font-weight: bold;
