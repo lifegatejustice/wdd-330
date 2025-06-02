@@ -1,7 +1,10 @@
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const checkoutProcess = new CheckoutProcess("so-cart", "form[name='checkout']");
+  const checkoutProcess = new CheckoutProcess(
+    "so-cart",
+    "form[name='checkout']",
+  );
 
   checkoutProcess.init();
 
