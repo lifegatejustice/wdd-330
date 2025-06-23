@@ -1,4 +1,4 @@
-import { getLocalStorage } from "./utils.mjs";
+import { addBreadcrumbItem, getLocalStorage } from "./utils.mjs";
 import ExternalServices from "./ExternalServices.mjs";
 
 const services = new ExternalServices();
@@ -40,6 +40,9 @@ export default class CheckoutProcess {
   init() {
     this.list = getLocalStorage(this.key);
     this.calculateItemSummary();
+
+    addBreadcrumbItem("Cart", "/cart/index.html");
+    addBreadcrumbItem("Checkout", "/checkout.html");
   }
 
   calculateItemSummary() {

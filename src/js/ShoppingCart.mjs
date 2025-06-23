@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs, fixImageUrl } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs, fixImageUrl, addBreadcrumbItem } from "./utils.mjs";
 
 export default class ShoppingCart {
   constructor(listElement) {
@@ -13,6 +13,8 @@ export default class ShoppingCart {
     this.template = await loadTemplate("../templates/cartItem.html");
     this.renderList(this.cartItems);
     this.setupEventListeners();
+
+    addBreadcrumbItem("Cart", "/cart/index.html");
   }
 
   prepareCartItemTemplate(template, item) {
