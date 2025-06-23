@@ -120,9 +120,9 @@ p {
   color: var(--tertiary-color);
 }
 
-button {
+button, .button {
   padding: 0.5em;
-  background-color: var(--secondary-color);
+  background-color: darkgreen;
   color: white;
   margin: 0.5rem;
   display: inline-flex;
@@ -130,8 +130,14 @@ button {
   border-radius: 0.375rem;
   font-size: var(--large-font);
   cursor: pointer;
+  text-decoration: none;
 }
 
+button:hover, .button:hover {
+  background-color: green;
+  transform: scale(1.05);
+  transition: background-color 0.3s ease, transform 0.3s ease
+}
 .card__table button {
   display: inline-flex;
 }
