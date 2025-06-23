@@ -37,8 +37,6 @@ async function init() {
       await productList.sortAndRender(sortBy);
     });
   }
-
-  
 }
 
 init();

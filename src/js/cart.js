@@ -7,7 +7,6 @@ const cartElement = qs(".cart-list");
 const cart = new ShoppingCart(cartElement);
 cart.init();
 
-
 // function renderCartContents() {
 //   const cartItems = getLocalStorage("so-cart") || [];
 //   const productList = qs(".cart-list");
@@ -90,7 +89,6 @@ cart.init();
 //     </table>
 //   </li>`;
 // }
-
 
 // function removeFromCart(e) {
 //   const id = e.target.dataset.id;
