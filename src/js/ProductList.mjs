@@ -1,24 +1,16 @@
- import { renderListWithTemplate } from "./utils.mjs";
+ import { renderListWithTemplate, fixImageUrl, addBreadcrumbItem, addProductToCart } from "./utils.mjs";
 
-const baseURL = import.meta.env.VITE_SERVER_URL;
-
-function fixImageUrl(url) {
-  if (!url) return "";
-  if (url.startsWith("http") || url.startsWith("/")) {
-    return url;
-  }
-  return baseURL + url;
-}
-
+ 
 function productCardTemplate(product) {
   const imageUrl = fixImageUrl(product.Images?.PrimaryMedium || product.Image || "");
   return "<li class=\"product-card\">" +
-    "<a href=\"/product_pages/product.html?product=" + product.Id + "\">" +
+    "<a href=\"/product_pages/index.html?product=" + product.Id + "\">" +
     "<img src=\"" + imageUrl + "\" alt=\"" + (product.Name || "") + "\">" +
     "<h2>" + (product.Brand?.Name || "") + "</h2>" +
     "<h3>" + (product.Name || "") + "</h3>" +
     "<p class=\"product-card__price\">$" + (product.FinalPrice || "") + "</p>" +
     "</a>" +
+    "<button class=\"add-to-cart\" data-product-id=\"" + product.Id + "\">Add to Cart</button>" +
     "</li>";
 }   
 
@@ -33,6 +25,18 @@ export default class ProductList {
   async init() {
     this.products = await this.dataSource.getData(this.category);
     this.renderList(this.products);
+    addBreadcrumbItem(this.category || "Uncategorized", `/product_listing/index.html?category=${this.category || ""}`);
+
+    // Add event listener for "Add to Cart" buttons
+    const addToCartButtons = this.listElement.querySelectorAll(".add-to-cart");
+    addToCartButtons.forEach(button => {
+      button.addEventListener("click", (event) => {
+        const productId = event.target.dataset.productId;
+        if (productId) {
+          addProductToCart(productId);
+        }
+      });
+    });
   }
 
   renderList(list) {

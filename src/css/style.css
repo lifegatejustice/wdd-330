@@ -213,7 +213,12 @@ button {
   list-style-type: none;
   justify-content: center;
 }
-
+.cart-list {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  max-width: 1200px;
+}
 .product-list a {
   text-decoration: none;
   color: var(--dark-grey);
@@ -351,7 +356,7 @@ button {
 }
 
 /* Responsive styles */
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 32em) {
   body {
     max-width: 1080px;
     margin: auto;
@@ -431,3 +436,59 @@ button {
   margin: 0;
   font-weight: 600;
 }
+
+/* breadcrumbs */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: whitesmoke;
+  border-radius: 8px;
+  margin: 1rem auto;
+}
+.breadcrumb a {
+  text-decoration: none;
+  color: var(--tertiary-color);
+  font-weight: bold;
+  margin: 0 0.5rem;
+  transition: transform 0.2s ease;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+.breadcrumb-item {
+  margin: 0 0.5rem;
+  font-size: var(--small-font);
+  color: var(--dark-grey);
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  margin: 0 0.5rem;
+  color: var(--dark-grey);
+}
+.breadcrumb span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.sort-options {
+  display: flex;
+  justify-content: end !important;
+  margin-bottom: 1rem;
+}
+.sort-options select {
+  padding: 0.5rem;
+  font-size: var(--small-font);
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+.sort-options label {
+  font-size: var(--small-font);
+  margin-right: 0.5rem;
+  color: var(--dark-grey);
+  align-content: center;
+}
+

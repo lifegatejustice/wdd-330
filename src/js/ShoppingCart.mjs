@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate, loadTemplate, updateCartCount, qs, fixImageUrl } from "./utils.mjs";
 
 export default class ShoppingCart {
   constructor(listElement) {
@@ -16,8 +16,10 @@ export default class ShoppingCart {
   }
 
   prepareCartItemTemplate(template, item) {
+    // new image logic:
+    const imageUrl = fixImageUrl(item.Images?.PrimarySmall || item.Image || "");
     return template
-      .replace(/{{Image}}/g, item.Image || "")
+      .replace(/{{Image}}/g, imageUrl || "")
       .replace(/{{Name}}/g, item.Name || "Unknown product")
       .replace(/{{Color}}/g, (item.Colors?.[0]?.ColorName || "N/A"))
       .replace(/{{FinalPrice}}/g, item.FinalPrice !== undefined ? item.FinalPrice : "0")

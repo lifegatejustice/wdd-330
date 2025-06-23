@@ -1,3 +1,5 @@
+import ProductData from "./ProductData.mjs";
+
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
@@ -67,10 +69,62 @@ export async function loadHeaderFooter() {
   updateCartCount(); // Update cart count after loading header/footer
 }
 
+
+
 export function updateCartCount() { 
   const cartCount = getLocalStorage("so-cart")?.length || 0;
   const cartCountElement = qs(".cart-count");
   if (cartCountElement) {
     cartCountElement.textContent = cartCount;
   }
+}
+
+export function fixImageUrl(url) {
+  const baseURL = import.meta.env.VITE_SERVER_URL;
+  if (!url) return "";
+  if (url.startsWith("http") || url.startsWith("/")) {
+    return url;
+  }
+  return baseURL + url;
+}
+
+export function addBreadcrumbItem(name, href) {
+  const breadcrumb = qs(".breadcrumb");
+  if (!breadcrumb) return;
+  
+  const a = document.createElement("a");
+  a.href = href;
+  a.textContent = capitalizeFirstLetter(name);
+  a.className = "breadcrumb-item";
+
+  breadcrumb.appendChild(a);
+}
+
+export function capitalizeFirstLetter(str) {
+  if (typeof str !== "string" || str.length === 0) return str;
+  return str
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export async function addProductToCart(productId) {
+  // get the product from the data source
+  const dataSource = new ProductData()
+  const product = await dataSource.findProductById(productId);
+  console.log("Adding product to cart:", product);
+  const cartItems = getLocalStorage("so-cart") || [];
+  //inspect the cart if product is in cart
+  const itemInCart = cartItems.find(item => item.Id === productId)
+  if (itemInCart) {
+    // increment quantity if item in cart
+    itemInCart.Quantity++;
+  } else {
+    // adding 'Quantity' key to product object before pushing it to cart.
+    // this helps when adjusting quantities in the cart.
+    product["Quantity"] = 1;
+    cartItems.push(product);
+  }
+  setLocalStorage("so-cart", cartItems);
+  // update the cart count in the header
+  updateCartCount();
 }
