@@ -1,0 +1,20 @@
+[
+  {
+    "Id": "hammock1",
+    "Name": "Lightweight Camping Hammock",
+    "Brand": { "Name": "SleepWell" },
+    "FinalPrice": 59.99,
+    "Image": "/images/category-hammocks.svg",
+    "Color": "Green",
+    "Description": "A lightweight and durable camping hammock perfect for outdoor relaxation."
+  },
+  {
+    "Id": "hammock2",
+    "Name": "Double Hammock with Straps",
+    "Brand": { "Name": "OutdoorPro" },
+    "FinalPrice": 89.99,
+    "Image": "/images/category-hammocks.svg",
+    "Color": "Blue",
+    "Description": "Spacious double hammock with easy-to-use straps for quick setup."
+  }
+]

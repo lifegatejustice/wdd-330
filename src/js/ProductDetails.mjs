@@ -43,19 +43,32 @@ export default class ProductDetails {
   }
 }
 
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
+function fixImageUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("http") || url.startsWith("/")) {
+    return url;
+  }
+  return baseURL + url;
+}
+
+
+
 function productDetailsTemplate(product) {
-  document.querySelector("h2").textContent = product.Brand.Name;
-  document.querySelector("h3").textContent = product.NameWithoutBrand;
+  document.querySelector("h2").textContent = product.Brand?.Name || "";
+  document.querySelector("h3").textContent = product.NameWithoutBrand || product.Name || "";
 
   const productImage = document.getElementById("productImage");
-  productImage.src = product.Image;
-  productImage.alt = product.NameWithoutBrand;
+  const imageUrl = fixImageUrl(product.Images?.PrimaryLarge || product.Image || "");
+  productImage.setAttribute("src", imageUrl);
+  productImage.setAttribute("alt", product.NameWithoutBrand || product.Name || "");
 
-  document.getElementById("productPrice").textContent = product.FinalPrice;
-  document.getElementById("productColor").textContent = product.Colors[0].ColorName;
-  document.getElementById("productDesc").innerHTML = product.DescriptionHtmlSimple;
+  document.getElementById("productPrice").textContent = product.FinalPrice ? `$${product.FinalPrice}` : "";
+  document.getElementById("productColor").textContent = product.Colors && product.Colors.length > 0 ? product.Colors[0].ColorName : "";
+  document.getElementById("productDesc").innerHTML = product.DescriptionHtmlSimple || product.Description || "";
 
-  document.getElementById("addToCart").dataset.id = product.Id;
+  document.getElementById("addToCart").dataset.id = product.Id || "";
 }
 
 // ************* Alternative Display Product Details Method *******************
